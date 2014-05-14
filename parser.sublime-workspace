@@ -1,0 +1,846 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"wri",
+				"fs.writeFileSync(path, data, encoding);"
+			],
+			[
+				"_detect",
+				"_detectBlocks"
+			],
+			[
+				"readF",
+				"fs.readFileSync(path, encoding);"
+			],
+			[
+				"w",
+				"width"
+			],
+			[
+				"con",
+				"console"
+			],
+			[
+				"me",
+				"meM"
+			],
+			[
+				"mem",
+				"meM"
+			],
+			[
+				"to",
+				"toAddd"
+			],
+			[
+				"re",
+				"result"
+			],
+			[
+				"las",
+				"lastVal"
+			],
+			[
+				"lo",
+				"toLocaleString"
+			],
+			[
+				"la",
+				"lastVal"
+			],
+			[
+				"meM",
+				"meMory"
+			],
+			[
+				"va",
+				"value"
+			],
+			[
+				"af",
+				"afterDot"
+			],
+			[
+				"M",
+				"Memory"
+			],
+			[
+				"aft",
+				"afterDotCount"
+			],
+			[
+				"e",
+				"else"
+			],
+			[
+				"val",
+				"value"
+			],
+			[
+				"i",
+				"inPut"
+			],
+			[
+				"ad",
+				"afterDotCount"
+			],
+			[
+				"a",
+				"afterDot"
+			],
+			[
+				"pr",
+				"prototype"
+			],
+			[
+				"pro",
+				"prototype"
+			],
+			[
+				"ty",
+				"typeof"
+			],
+			[
+				"m",
+				"meM"
+			],
+			[
+				"pa",
+				"parseFloat"
+			],
+			[
+				"Mem",
+				"Memory"
+			],
+			[
+				"cl",
+				"clearCurrent"
+			],
+			[
+				"co",
+				"constructor"
+			],
+			[
+				"s",
+				"staTe"
+			],
+			[
+				"Ca",
+				"calcState"
+			],
+			[
+				"In",
+				"inPut"
+			],
+			[
+				"set",
+				"setON"
+			],
+			[
+				"pad",
+				"padding-top"
+			],
+			[
+				"ma",
+				"margin-bottom"
+			],
+			[
+				"font",
+				"font-family"
+			],
+			[
+				"fo",
+				"font-size"
+			],
+			[
+				"padd",
+				"padding-left"
+			],
+			[
+				"mar",
+				"margin"
+			],
+			[
+				"ca",
+				"calcState"
+			],
+			[
+				"ac",
+				"actButton"
+			],
+			[
+				"tr",
+				"true"
+			],
+			[
+				"bor",
+				"border-right"
+			],
+			[
+				"bo",
+				"border-spacing"
+			],
+			[
+				"tex",
+				"text-align"
+			],
+			[
+				"c",
+				"current"
+			],
+			[
+				"in",
+				"inPut"
+			],
+			[
+				"L",
+				"lastChar"
+			],
+			[
+				"my",
+				"myCheck"
+			],
+			[
+				"t",
+				"temp"
+			],
+			[
+				"cur",
+				"curVal"
+			],
+			[
+				"nu",
+				"numInOut"
+			],
+			[
+				"fon",
+				"font-family"
+			],
+			[
+				"marg",
+				"margin-left"
+			],
+			[
+				"ta",
+				"tag"
+			],
+			[
+				"ra",
+				"rando"
+			],
+			[
+				"_",
+				"_myMy"
+			],
+			[
+				"b",
+				"b1"
+			],
+			[
+				"tes",
+				"test2"
+			],
+			[
+				"class",
+				"class"
+			],
+			[
+				"vk",
+				"Vkontakte"
+			],
+			[
+				"fun",
+				"function"
+			],
+			[
+				"as",
+				"assortiPic"
+			],
+			[
+				"ass",
+				"assorti"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"contents": "var inData = require('./getdata').inData,\n	specArray = require('./regexps').spec,\n	state = {},\n	type = require('./typedetect').typeDetect,\n	util = require('util'),\n\n	// _removeEmpty = function(arr){\n	// 	util.isArray(arr) ? \n	// 	arr.forEach(\n	// 		function(e, ind){\n	// 			if (e === '' | !e) { arr.splice(ind, 1) }\n	// 			else if (util.isArray(arr)) { _removeEmpty(e) }\n	// 			else if (e.content) { _removeEmpty(e.content) }\n	// 		}\n\n	// 	) : return arr\n	// 	return arr\n	// },\n\n    /**\n     * Parse passed string using current state\n     * @param {String} element to parse\n     * @returns {String | Array} result\n     */\n\n	_parseMultiline = function(elem){\n		var result = [],\n			a, i, obj, lastIn = 0;\n			\n			if(!elem) {\n				throw ('elem is undef')\n			}\n\n			else if (state.spec.ownMethod) { return state.spec.ownMethod(elem) }\n\n			else if (elem && !state.spec.regExp.test(elem)){\n				console.log('pattern not detected');\n				return result = elem\n			}\n			\n			else {\n\n				while ((a = state.spec.regExp.exec(elem))) {\n					var beforeTrigger = elem.slice(lastIn, state.spec.regExp.lastIndex - a[0].length);\n					// 	for (i = 0; i < a.length; i += 1) {\n					// 	console.log(state.spec.regExp.lastIndex + '[' + i + '] ' + a[i]);\n					// };				\n					obj = (function(){\n						var preObj = {};\n						preObj.block = state.spec.block;\n						state.spec.fields.forEach(function(field, index){\n							preObj[field] = a[index+1]					\n						});\n						console.log('preOBJECT is ' + JSON.stringify(preObj))\n						\n						return preObj\n					}());\n\n	\n					if (beforeTrigger){\n						console.log('beforeTrigger');\n						result.push(beforeTrigger, obj)					\n					}\n	\n					else if(obj){\n						console.log('beforeTrigger is nothing to push. Pushing object');\n						result.push(obj)	\n					};\n	\n					lastIn = state.spec.regExp.lastIndex							\n				};\n\n				if (lastIn < elem.length && result) {\n					result.push(elem.slice(lastIn))\n					console.log(\"something left. I've pushed it\");\n				}\n			};\n\n			console.log('got it! ' + type(result));\n			return result;\n	},\n\n	_typeDetect = function(item){\n		\n		if (!item){\n			console.log('job is absent')\n		}\n\n		else if (item.content){\n			console.log('type deteted as ' + typeof item);			\n			item.content = _typeDetect(item.content);\n			if (item.content){				\n			return item\n			}\n		}\n		\n		else if (util.isArray(item) && item.length >= 1) {\n			console.log('type deteted as Array:  ' + JSON.stringify(item));	\n			return _arrayWalker(item)\n		}\n\n		else if (typeof item === 'string' && item.split){\n			console.log('type deteted as ' + typeof item);	\n			return _parseMultiline(item)\n		};\n\n\n	},\n\n	 /**\n     * Travers given array and call type detection for it elements. Can be called recursive.\n     * @param {Array} array to traverse\n     * @returns {Array} results\n     */\n\n	_arrayWalker = function(job){\n		var result = [], chunk;\n\n		if(util.isArray(job)) {\n			console.log('\\n\\n\\nTraversing array of ' + job.length + ' elements  ----------------------------------------------------------------------------------------');\n\n			if (job.length === 1) {\n				console.log('\\nSingle element array detected!');\n\n				result.push(_arrayWalker(job[0]))\n			}\n\n			else {\n				job.forEach(\n					function(elem, item){\n						if (elem){\n							console.log('\\nProcessing item #: ' + item );\n							chunk = _typeDetect(elem);\n/*							console.log('result chunk is: ' + JSON.stringify(chunk)+ '\\n\\n');*/\n\n							result.push(chunk)\n						}			\n					}\n				);\n			}\n		}\n\n		else { \n			console.log('yayks! It seems, that passed value is not an array...');\n			result.push(_typeDetect(job)) \n		};\n\n		console.log('IM ALIVE');\n		return result\n	};\n\n// call parser for every regexp specificator\n\nspecArray.forEach(function(elem, i){\n	state.spec = elem;\n	state.data = inData;\n\n	console.log('\\n\\n\\n********************************************************************************');\n	console.log('\\nBlock name are set to: ' + state.spec.block);	\n	console.log('\\nRegexp is: ' + state.spec.regExp);\n	console.log('\\n********************************************************************************\\n\\n\\n');\n	\n\n	state.data = _arrayWalker(state.data)\n	\n});\n\n\nexports.parsed = state.data",
+			"file": "parsemd.js",
+			"file_size": 4163,
+			"file_write_time": 130445369740000000,
+			"settings":
+			{
+				"buffer_size": 4147,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "regexps.js",
+			"settings":
+			{
+				"buffer_size": 1144,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "savejson.js",
+			"settings":
+			{
+				"buffer_size": 161,
+				"line_ending": "Unix",
+				"name": "var inData = require('./getdata').inData,"
+			}
+		},
+		{
+			"file": "out/result.json",
+			"settings":
+			{
+				"buffer_size": 11096,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "\n\n\nvar inData = require('./getdata').inData,\n	normalData = inData.replace(/[\\n\\r]{3,}/, '\\u000D\\u000D'),\n	detect = require('./regexps').regexps,\n	specArray = require('./regexps').spec,\n	state = {},\n	preArray = [];\n	_detectBlocks = function(elem, regExp, blockname){\n		var result = [],\n			a, i, lastIn = 0;\n//			console.log(regExp.constructor + ' '+ blockname);\n\n		if (regExp && /regexp/i.test(regExp.constructor)) {\n			state.reg = regExp;\n			console.log('Regexp are set to: ' + regExp);\n		};\n\n		if (blockname && typeof blockname === 'string') {\n			state.block = blockname\n			console.log('Block name are set to: ' + blockname);\n		};\n\n		if (typeof elem === 'string' || typeof elem ===  'number'){\n			while ((a = state.reg.exec(elem))) {\n					for (i = 0; i < a.length; i += 1) {\n					console.log(regExp.lastIndex + '[' + i + '] ' + a[i]);\n				};\n\n				if (state.reg.lastIndex && a[3]){\n				result.push(elem.slice(lastIn, state.reg.lastIndex - a[0].length), \n					{ block : state.block, content : a[3], type : a[2] });\n\n				lastIn = state.reg.lastIndex\n				}\n				else if (state.reg.lastIndex){\n				result.push(elem.slice(lastIn, state.reg.lastIndex - a[0].length), \n					{ block : state.block, content : a[2], type : a[1] });\n\n				lastIn = state.reg.lastIndex\n				}				\n			}\n		return result\n\n		};\n\n		if(/array/i.test(elem.constructor)) {\n			console.log('kva!!!!!!!!!!!!!!!!!!!!');\n			return elem.map(_detectBlocks);\n		}\n\n		else if(elem.content){\n			a = elem.content;\n			console.log('myau!!!!!!!!!!!!!!!!!!!!');			\n			elem.content = _detectBlocks(a);\n			return elem\n		};\n\n		console.log(elem.constructor);\n\n		\n	},\n\n	_detectLinks = function(elem){\n		var result = [],\n			a, i;\n\n		while ((a = detect.link.exec(elem))) {\n			console.log(a);\n				for (i = 0; i < a.length; i += 1) {\n//				console.log('[' + i + '] ' + a[i])\n			}\n\n		}\n		\n	};\n\n\n\npreArray = _detectBlocks(normalData, detect.code, 'codeblock');\n\npreArray = _detectBlocks(normalData, detect.link, 'link');\n\n//console.log(preArray);\npreArray = _detectBlocks(preArray, detect.header, 'header');\n\nconsole.log(preArray);\n\nexports.parsed = preArray\n\n//	preArray.forEach(_detectLinks);\n\n",
+			"settings":
+			{
+				"buffer_size": 2129,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "Packages/User/node1.sublime-build",
+	"command_palette":
+	{
+		"height": 67.0,
+		"selected_items":
+		[
+			[
+				"Package Control: U",
+				"Package Control: Upgrade Package"
+			],
+			[
+				"NODE",
+				"Nodejs::Default File Settings"
+			],
+			[
+				"Package Control: ",
+				"Package Control: Install Package"
+			],
+			[
+				"",
+				"FTPSync: Setup FTPSync in this folder"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 467.0
+	},
+	"console":
+	{
+		"height": 126.0,
+		"history":
+		[
+			"parsemd.js",
+			"node",
+			"as",
+			"node",
+			"grep",
+			"ll",
+			"exit",
+			"parsemd.js",
+			"parsemd",
+			"as",
+			"node",
+			"import urllib.request,os; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); open(os.path.join(ipp, pf), 'wb').write(urllib.request.urlopen( 'http://sublime.wbond.net/' + pf.replace(' ','%20')).read())"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/Users/ragnar/repos/mdparse/typedetect.js",
+		"/Users/ragnar/Library/Application Support/Sublime Text 3/Packages/User/node1.sublime-build",
+		"/Users/ragnar/Library/Application Support/Sublime Text 3/Packages/User/Nodejs.sublime-settings",
+		"/Users/ragnar/Library/Application Support/Sublime Text 3/Packages/User/node.sublime-build",
+		"/Users/ragnar/Library/Application Support/Sublime Text 3/Packages/Nodejs/Nodejs.sublime-settings",
+		"/Users/ragnar/Library/Application Support/Sublime Text 3/Packages/User/Package Control.sublime-settings",
+		"/Users/ragnar/Library/Application Support/Sublime Text 3/Packages/User/Preferences.sublime-settings",
+		"/Users/ragnar/repos/mdparse/typedetect",
+		"/Users/ragnar/repos/mdparse/out/result.json",
+		"/Users/ragnar/repos/mdparse/convert.js",
+		"/Users/ragnar/repos/bem-components/desktop.pages/index/index.bemjson.js",
+		"/Users/ragnar/repos/bem-core/common.docs/bemjson/bemjson.ru.md",
+		"/Users/ragnar/repos/bem-core/common.docs/bemtree/bemtree-reference.ru.md",
+		"/Users/ragnar/repos/bem-core/common.docs/reference/reference.ru.md",
+		"/Users/ragnar/repos/bem-core/common.docs/templating/template.ru.md",
+		"/Users/ragnar/repos/bem-core/common.docs/bemtree/bemtree-reference.ru.meta.json",
+		"/Users/ragnar/repos/bc/testbemtree/project-stub/.bem/make.js",
+		"/Users/ragnar/repos/bc/testbemhtml/project-stub/desktop.blocks/mytest/_mymod22/mytest_mymod22.bemhtml",
+		"/Users/ragnar/repos/bc/testbemhtml/project-stub/desktop.blocks/keycontroll/keycontroll.bemhtml",
+		"/Users/ragnar/repos/bc/testbemhtml/project-stub/desktop.blocks/mytest/__elem1/mytest__elem1.bemhtml",
+		"/Users/ragnar/repos/bc/testbemhtml/project-stub/desktop.blocks/mytest/mytest.css",
+		"/Users/ragnar/repos/bc/testbemhtml/project-stub/desktop.blocks/mytest/__elem1/_mod11/mytest__elem1_mod11.bemhtml",
+		"/Users/ragnar/.bashrc",
+		"/Users/ragnar/repos/bem-tools/docs/tech-modules/tech-modules.ru.meta.json",
+		"/Users/ragnar/repos/bem-tools/docs/tech-modules/tech-modules.en.meta.json",
+		"/Users/ragnar/repos/bem-core/common.docs/reference/reference.en.meta.json",
+		"/Users/ragnar/repos/bem-core/common.docs/reference/reference.ru.meta.json",
+		"/Users/ragnar/repos/bem-method/people/ivanichenko-sergey/ivanichenko-sergey.en.meta.json",
+		"/Users/ragnar/repos/bem-method/people/ivanichenko-sergey/ivanichenko-sergey.ru.meta.json",
+		"/Users/ragnar/repos/bc/testbemhtml/project-stub/desktop.bundles/index/index.bemhtml.js",
+		"/Users/ragnar/repos/bc/testbemhtml/project-stub/desktop.blocks/b1/b1.bemhtml",
+		"/Users/ragnar/repos/bc/testbemhtml/project-stub/desktop.blocks/test1/test1.js",
+		"/Users/ragnar/repos/bc/testbemhtml/project-stub/desktop.blocks/test1/test1.bemhtml",
+		"/Users/ragnar/repos/bc/testbemhtml/project-stub/desktop.bundles/index/_index.bemhtml.js",
+		"/Users/ragnar/repos/bc/testbemhtml/bem-core/desktop.blocks/test/test.deps.js",
+		"/Users/ragnar/repos/bc/testbemhtml/bem-core/desktop.blocks/test/test.bemdecl.js",
+		"/Users/ragnar/repos/bc/testbemhtml/bem-core/desktop.blocks/test/test.bemjson.js",
+		"/Users/ragnar/repos/bem-core/desktop.blocks/page/__css/page__css.bemhtml",
+		"/Users/ragnar/repos/bc/testbemhtml/bem-core/desktop.blocks/test1.bemdecl.js",
+		"/Users/ragnar/repos/bem-core/desktop.blocks/page/page.bemhtml",
+		"/Users/ragnar/repos/bem-core/common.blocks/i-bem/i-bem.bemhtml",
+		"/Users/ragnar/repos/bem-core/common.blocks/i-bem/i-bem.test.bemhtml/basic-test.js",
+		"/Users/ragnar/repos/bem-core/common.docs/reference/diagrams.tex",
+		"/Users/ragnar/Documents/linux hints",
+		"/Users/ragnar/Library/Containers/com.apple.mail/Data/Library/Mail Downloads/doc/dropdown/dropdown.jsdoc.json",
+		"/Users/ragnar/repos/public_html/index.php",
+		"/Users/ragnar/Documents/Dropbox/init.py",
+		"/Users/ragnar/repos/bemhtml-test/bem-core/common.blocks/events/events.deps.js",
+		"/Users/ragnar/Documents/ftpsync.settings",
+		"/Users/ragnar/Library/Application Support/Sublime Text 3/Packages/User/FTPSync.sublime-settings",
+		"/Users/ragnar/Library/Application Support/Sublime Text 3/Packages/FTPSync/FTPSync.sublime-settings",
+		"/Users/ragnar/Library/Application Support/Sublime Text 3/Packages/Gist/Default (OSX).sublime-keymap",
+		"/Users/ragnar/Documents/Calibre Library/metadata_db_prefs_backup.json",
+		"/Users/ragnar/repos/w2m/examples/mt.wiki",
+		"/Users/ragnar/repos/w2m/examples/mt.wiki.transformed",
+		"/Users/ragnar/Library/Application Support/Sublime Text 3/Packages/Gist/Gist.sublime-settings",
+		"/Users/ragnar/Library/Application Support/Sublime Text 3/Packages/User/Default (OSX).sublime-keymap",
+		"/Users/ragnar/Library/Application Support/Sublime Text 3/Packages/User/Gist.sublime-settings",
+		"/Users/ragnar/Documents/tanker-kit/tanker-tst/1/node_modules/tanker-kit/.tanker/config.js",
+		"/Users/ragnar/Documents/tanker-kit/.tanker/config.js",
+		"/Users/ragnar/Documents/tanker-kit/tanker-tst/1/node_modules/tanker-kit/lib/util.js",
+		"/Users/ragnar/Documents/tanker-kit/tanker-tst/1/node_modules/tanker-kit/tanker.js",
+		"/Users/ragnar/Documents/tanker-kit/tanker.js",
+		"/Users/ragnar/Documents/tanker-kit/node_modules/tanker-ext/dispatchers/json-2-bem-i18n.js",
+		"/Users/ragnar/Library/Application Support/Sublime Text 3/Packages/Default/Preferences.sublime-settings",
+		"/Users/ragnar/Desktop/modules",
+		"/Volumes/svnX/svnXopen.sh",
+		"/Users/ragnar/Documents/project-stub/w2m/w2m.js",
+		"/Users/ragnar/Documents/project-stub/node_modules/bem/tests/decl.js",
+		"/Users/ragnar/repos/zaika-mozayka.com/administrator/components/com_virtuemart/models/customfields.php",
+		"/Users/ragnar/Downloads/com_vm_sgc_VM2/admin/assets/plugins/system/sgc/sgc.php",
+		"/Users/ragnar/Desktop/assort.html",
+		"/Users/ragnar/Library/Application Support/Sublime Text 3/Packages/User/Plain text.sublime-settings",
+		"/Users/ragnar/Library/Application Support/Sublime Text 3/Packages/Default/Default (OSX).sublime-keymap"
+	],
+	"find":
+	{
+		"height": 35.0
+	},
+	"find_in_files":
+	{
+		"height": 93.0,
+		"where_history":
+		[
+			"/Users/ragnar/repos/bem-core/common.docs",
+			"/Users/ragnar/repos/bc/testbemhtml/project-stub",
+			"/Users/ragnar/repos/bc/testbemhtml/project-stub/desktop.bundles/index",
+			"/Users/ragnar/repos/zaika-mozayka.com"
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": true,
+		"find_history":
+		[
+			"Arra",
+			"out",
+			"Визуально представлен следующими элементами:",
+			"nItem",
+			"_parseMultiline",
+			"\"block\":\"link\"",
+			"console",
+			"#",
+			"lin",
+			"/bem-core/2.0.0/",
+			"../bemjson/bemjson.ru.md",
+			"../reference/reference.ru.md",
+			"http://ru.bem.info/libs/bem-core/2.0.0/templates/bemtree/",
+			"* [BEMTREE](../common.docs/bemtree/bemtree-reference.ru.md) http://ru.bem.info/libs/bem-core/2.0.0/templates/bemtree/\n* [BEMTREE](../common.docs/bemtree/bemtree-reference.ru.md) http://ru.bem.info/libs/bem-core/2.0.0/templates/bemtree/\nhttp://ru.bem.info/libs/bem-core/2.0.0/templates/bemtree/",
+			"../bemtree/bemtree-reference.ru.md",
+			"../common.docs/bemtree/bemtree-reference.ru.md",
+			"../templating/template.ru.md",
+			"(../",
+			"~/common.docs/",
+			"./common.docs/",
+			"http://ru.bem.info/libs/bem-core/2.1.0/bemtree/reference",
+			"http://ru.bem.info/libs/bem-core/2.1.0/bemjson/reference",
+			"http://ru.bem.info/libs/bem-core/2.1.0/template/template",
+			"argument",
+			"гипервизор",
+			"domai",
+			"NB",
+			"arbitary",
+			"method",
+			"setON",
+			"setInput",
+			"actButton",
+			"calcState.memCell",
+			"prec",
+			"preS",
+			"to",
+			"topr",
+			"eval",
+			"';\n",
+			"bundles/_index.css",
+			";\n",
+			"k",
+			"CSS.js",
+			"js",
+			"jj",
+			"js ",
+			"js.",
+			".js",
+			"(js)",
+			".jjj",
+			"css",
+			".css",
+			"**РЕКОМЕНДОВАНО:**",
+			"ката",
+			"пап",
+			"дир",
+			"директории",
+			"папок",
+			"директория",
+			"папка",
+			"Метод возвращает:",
+			"Метод принимает:",
+			"Аргу",
+			"product-info-box",
+			"Сумма",
+			"vm-customfield-cart",
+			".product-info-box",
+			"product-field-type-S",
+			"vm-customfield-cart",
+			"guest",
+			"online",
+			"We have",
+			"<!-- Yandex.Metrika counter -->",
+			"₴",
+			".poping_links",
+			"cellpadding=\"10\"",
+			"Подарочная упаковка",
+			"pack Подарочная упаковка",
+			"-102px",
+			"vmgeneral/add-to-cart.png",
+			"group",
+			"wish",
+			"moduletable",
+			"moduletable mods",
+			"quantity-controls quantity-plus",
+			"value=\"∧\"",
+			"VM_FAVORITE_QTYBOX_UP",
+			"quantity-controls quantity-plus",
+			"wish",
+			"product-field-display"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"/bem-core/2.2.0/",
+			"http://ru.bem.info/libs/bem-core/2.0.0/templates/bemjson",
+			"http://ru.bem.info/libs/bem-core/2.0.0/templates/reference",
+			"http://ru.bem.info/libs/bem-core/2.0.0/templates/bemtree",
+			"http://ru.bem.info/libs/bem-core/2.0.0/templates/bemtree/",
+			"http://ru.bem.info/libs/bem-core/2.0.0/templates/templates",
+			"(./common.docs/",
+			"../",
+			"~/common.docs/",
+			"./common.docs/bemtree/bemtree-reference.ru.md",
+			"./common.docs/bemjson/bemjson.ru.md",
+			"./common.docs/templating/template.ru.md",
+			"catchInput",
+			"parseLast",
+			"meMory.memCell",
+			"css.js",
+			"js",
+			".jj",
+			"(jj)",
+			".css",
+			"CSS",
+			".jjj",
+			"**NB:**",
+			"каталога",
+			"каталогов",
+			"каталог",
+			"Возвращаемое значение:",
+			"Аргументы:"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "parsemd.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4147,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								163,
+								163
+							]
+						],
+						"settings":
+						{
+							"gist_description": "typeDetector",
+							"gist_filename": "typedetect.js",
+							"gist_html_url": "https://gist.github.com/24703d1dc5f4e3d94d22",
+							"gist_url": "https://api.github.com/gists/24703d1dc5f4e3d94d22",
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "regexps.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1144,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								897,
+								904
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "savejson.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 161,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								32,
+								38
+							]
+						],
+						"settings":
+						{
+							"auto_name": "var inData = require('./getdata').inData,",
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "out/result.json",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 11096,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								16,
+								16
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JSON.tmLanguage"
+						},
+						"translation.x": 40872.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2129,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								842,
+								735
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 25.0
+	},
+	"input":
+	{
+		"height": 31.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 112.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"project": "parser.sublime-project",
+	"replace":
+	{
+		"height": 46.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+			[
+				"",
+				"<script >"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"selected_items":
+		[
+			[
+				"",
+				"~/Documents/SublimeProjects/popup.sublime-project"
+			]
+		],
+		"width": 380.0
+	},
+	"select_symbol":
+	{
+		"height": 392.0,
+		"selected_items":
+		[
+		],
+		"width": 392.0
+	},
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 273.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
