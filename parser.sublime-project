@@ -1,13 +1,2 @@
 {
-	"folders":
-	[
-		{
-			"follow_symlinks": true,
-			"path": "/Users/ragnar/repos/bem-components/common.blocks/menu"
-		},
-		{
-			"follow_symlinks": true,
-			"path": "/Users/ragnar/repos/bem-components/common.blocks/menu-item"
-		}
-	]
 }

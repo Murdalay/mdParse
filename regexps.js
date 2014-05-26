@@ -19,17 +19,6 @@ var spec = [
 
 	},
 	{
-		block : 'header',
-
-		regExp : /(?:[\n\r]{1,}|[DSW])(#{1,})\u0020{0,1}([^\n\r\f#]{1,})(?:[.\u0020]{0,})/g,
-
-		fields : ['level', 'content'],
-
-		mutable : true
-
-
-	},	
-	{
 		block : 'link',
 
 		regExp : /\[([^\]\[\n\r]{1,})\]\(([^\n\)]{1,})\)/g,
@@ -39,39 +28,50 @@ var spec = [
 		mutable : false
 
 
-	},	
+	},
 	{
-		block : 'paragraph',
+		block : 'header',
 
-		regExp : 'has own method',
+		regExp : /(?:[\n\r]{1,}|[DSW])(#{1,})\u0020{0,1}([^\n\r\f#]{1,})(?:[.\u0020]{0,})/gi,
 
-		fields : ['content'],
+		fields : ['level', 'content'],
 
-		mutable : true,
+		mutable : true
 
-		ownMethod : function(elem){
-			var temp, res = [];
-			if (!/\n{2,}/.test(elem)) { return elem }
+
+	}];	
+// 	{
+// 		block : 'paragraph',
+
+// 		regExp : 'has own method',
+
+// 		fields : ['content'],
+
+// 		mutable : true,
+
+// 		ownMethod : function(elem){
+// 			var temp, res = [];
+// 			if (!/\n{2,}/.test(elem)) { return elem }
 			
-			else {				
-				temp = elem.split(/\n{2,}/);
-				temp.forEach(function(part){
-					var preObj = {};
+// 			else {				
+// 				temp = elem.split(/\n{2,}/);
+// 				temp.forEach(function(part){
+// 					var preObj = {};
 	
-					if (part){
-						preObj.block = 'paragraph';
-						preObj.content = part;
-						res.push(preObj)
-					}
+// 					if (part){
+// 						preObj.block = 'paragraph';
+// 						preObj.content = part;
+// 						res.push(preObj)
+// 					}
 
 
-				})
-				return res
-			}
-		}
-	}
+// 				})
+// 				return res
+// 			}
+// 		}
+// 	}
 
-];
+// ];
 
 
 
